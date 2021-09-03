@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="emoji-java-5.1.1">
+    <CLASSES>
+      <root url="jar://D:/Downloads/emoji-java-5.1.1.jar!/" />
+      <root url="jar://D:/Downloads/json-20210307.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/emoji-java-5.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
