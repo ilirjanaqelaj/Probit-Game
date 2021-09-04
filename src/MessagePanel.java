@@ -14,6 +14,7 @@ public class MessagePanel extends JPanel {
     }
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         if (message != null) {
             g.setColor(Color.red);
             g.drawString(message, 10, 10);

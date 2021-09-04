@@ -10,7 +10,7 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
     private int boxSize = 50;
     private Board board;
     private Player player;
-
+    private int userPoints=0;
 
     public WindowDisplay(String title, Player player, Board board) {
         setTitle(title);
@@ -28,7 +28,7 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
         this.addKeyListener(this);
         this.player = player;
         this.board = board;
-        showMessage("Points : ");
+        showMessage("Points : " + this.userPoints);
 
     }
 
@@ -84,16 +84,34 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
 
         }
 
+
+
         try {
             if(board.withBlackHolePosition(position)){
-              //  pnlMessage.updateDrawing("GAME OVER");
-               // System.exit(0);
+                JOptionPane.showMessageDialog(null, "GAME OVER", "alert", JOptionPane.INFORMATION_MESSAGE);
+                if (wantsToPlayMore())
+                {
+
+                } else {
+                    this.userPoints = 0;
+                }
             }
+
+
             if (board.isValidPosition(position) && board.areInsideBounds(position.getX(), position.getY())) {
+
+
+
+                this.userPoints += board.getPositionPoints(position);
+                showMessage("Points: " + userPoints);
+
+
                 board.updatePosition(player, position);
                 update(board);
+
             }
         } catch (Exception ex) {
+
         }
 
     }

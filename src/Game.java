@@ -62,10 +62,6 @@ public class Game {
             board.updateBlackHole(blackHole,positionOfBlackHole);
 
         }
-
-
-
-
         windowDisplay.update(board);
 
     }

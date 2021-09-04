@@ -42,7 +42,15 @@ public class Board {
 
 
     public boolean isValidPosition(Position position) {
+
         return getBox(position).isEmptyPlayer() && getBox(position).isEmptyPengesa();
+    }
+
+    public int getPositionPoints(Position position) {
+        int positionPoints = 0;
+        positionPoints = boxes[position.getX()][position.getY()].getPoints();
+
+        return positionPoints;
     }
 
     public boolean withBlackHolePosition(Position position){
@@ -57,19 +65,6 @@ public class Board {
         }
     }
 
-    public int collectPoints() {
-        int points = 0;
-
-        for (int rreshti = 0; rreshti < ROWS; rreshti++) {
-            for (int shtylla = 0; shtylla < COLS; shtylla++) {
-                if(!(getBox(currentPosition).isEmptyPlayer())) {
-                    points = getBox(currentPosition).getPoints();
-                }
-            }
-        }
-
-        return points;
-    }
 
 
     public Box getBox(Position pozita) {
@@ -84,6 +79,7 @@ public class Board {
     public void updatePosition(Player player, Position position) {
         getBox(position).setPlayer(player);
         this.currentPosition = position;
+        boxes[position.getX()][position.getY()].setPoints(0);
     }
 
     public void updatePengesa(Pengesa pengesa, Position position) {
