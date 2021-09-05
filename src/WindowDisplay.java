@@ -88,10 +88,14 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
 
         try {
             if(board.withBlackHolePosition(position)){
-                JOptionPane.showMessageDialog(null, "GAME OVER", "alert", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "GAME OVER");
                 if (wantsToPlayMore())
                 {
-
+                    Board newBoard=new Board(Board.ROWS,Board.COLS);
+                    WindowDisplay windowsDisplay=new WindowDisplay("",player,newBoard);
+                    Game game=new Game(windowsDisplay);
+                    windowsDisplay.update(newBoard);
+                    game.play(newBoard);
                 } else {
                     this.userPoints = 0;
                 }
@@ -100,13 +104,8 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
 
             if (board.isValidPosition(position) && board.areInsideBounds(position.getX(), position.getY())) {
 
-
-
-                this.userPoints += board.getPositionPoints(position);
-                showMessage("Points: " + userPoints);
-
-
                 board.updatePosition(player, position);
+                showMessage("Points: " + board.getUserPoints());
                 update(board);
 
             }

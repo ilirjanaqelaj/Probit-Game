@@ -25,8 +25,7 @@ public class Game {
         ui.showMessage(board.toString());
     }
 */
-
-    public static void main(String[] args) throws ArrayIndexOutOfBoundsException{
+    public void play(Board board){
         String str = ":grinning:";
         String str2=":lock:";
         String str3=":cyclone:";
@@ -39,14 +38,10 @@ public class Game {
         Pengesa pengesa=new Pengesa(symbol2);
         BlackHole blackHole=new BlackHole(symbol3);
 
-        Board board=new Board(COLS,ROWS);
-        WindowDisplay windowDisplay=new WindowDisplay("Loja",player,board);
-
-        Position positionOfPlayer=new Position(0,0);
         Position positionOfPengesa=new Position();
         Position positionOfBlackHole=new Position();
+        Position positionOfPlayer=new Position(0,0);
 
-        board.updatePosition(player,positionOfPlayer);
 
         Random random=new Random();
 
@@ -62,6 +57,23 @@ public class Game {
             board.updateBlackHole(blackHole,positionOfBlackHole);
 
         }
+        board.updatePosition(player,positionOfPlayer);
+
+
+    }
+
+    public static void main(String[] args) throws ArrayIndexOutOfBoundsException{
+        String str = ":grinning:";
+        String symbol = EmojiParser.parseToUnicode(str);
+
+        Player player=new Player(symbol);
+
+        Board board=new Board(COLS,ROWS);
+        WindowDisplay windowDisplay=new WindowDisplay("Loja",player,board);
+        Game game=new Game(windowDisplay);
+
+        game.play(board);
+        windowDisplay.showMessage("Points: " + board.getUserPoints());
         windowDisplay.update(board);
 
     }

@@ -7,6 +7,7 @@ public class Board {
     static int COLS;
     public Pengesa currentPengesa;
     private BlackHole currentBlackHole;
+    private int userPoints;
 
     public Board(int rreshti, int shtylla) {
         ROWS = rreshti;
@@ -79,7 +80,12 @@ public class Board {
     public void updatePosition(Player player, Position position) {
         getBox(position).setPlayer(player);
         this.currentPosition = position;
+         this.userPoints+= getPositionPoints(position);
         boxes[position.getX()][position.getY()].setPoints(0);
+    }
+
+    public int getUserPoints() {
+        return userPoints;
     }
 
     public void updatePengesa(Pengesa pengesa, Position position) {
