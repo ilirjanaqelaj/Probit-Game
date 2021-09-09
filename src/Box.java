@@ -3,10 +3,22 @@ public class Box {
     private Pengesa pengesa;
     private int points;
     private BlackHole blackHole;
+    private DangerousPlayer dangerousPlayer;
 
-    public void clear() {
+
+    public void clearPlayer() {
         player = null;
+
     }
+
+    public void clearDangerousPlayer() {
+        dangerousPlayer=null;
+
+    }
+
+
+
+
 
     public boolean isEmptyPlayer() {
         return player == null;
@@ -23,6 +35,10 @@ public class Box {
     public boolean isEmptyBlackHole() {
         return blackHole == null;
 
+    }
+
+    public boolean isEmptyDangerousPlayer() {
+        return dangerousPlayer == null;
     }
 
 
@@ -56,6 +72,10 @@ public class Box {
         this.blackHole = blackHole;
     }
 
+    public void setDangerousPlayer(DangerousPlayer dangerousPlayer) {
+        this.dangerousPlayer=dangerousPlayer;
+    }
+
 
     public int getPoints()
     {
@@ -65,16 +85,19 @@ public class Box {
     @Override
     public String toString()
     {
-        if(!isEmptyPlayer() && isEmptyPengesa() && isEmptyBlackHole())
+        if(!isEmptyPlayer())
             return player.toString() ;
-        else if(isEmptyPlayer() && !isEmptyPengesa() && isEmptyBlackHole())
-            return pengesa.toString();
-        else if(isEmptyPlayer() && isEmptyPengesa() && !isEmptyBlackHole())
+        else if(!isEmptyBlackHole())
             return blackHole.toString();
+        else if(!isEmptyPengesa())
+            return pengesa.toString();
+        else if(!isEmptyDangerousPlayer())
+            return dangerousPlayer.toString();
         else {
             return ""+ points;
         }
     }
+
 
 
 }

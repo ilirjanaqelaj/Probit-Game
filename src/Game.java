@@ -1,18 +1,16 @@
-
 import com.vdurmont.emoji.EmojiParser;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.AWTEventListener;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Game {
     private Display ui = new ConsoleDisplay();
     private Player player;
 
-    private static int COLS=6;
-    private static int ROWS=6;
+    private static int COLS=10;
+    private static int ROWS=10;
+
+    String str4=":ghost:";
+    String symbol4=EmojiParser.parseToUnicode(str4);
 
 
     public Game(Display ui) {
@@ -25,23 +23,33 @@ public class Game {
         ui.showMessage(board.toString());
     }
 */
+
     public void play(Board board){
         String str = ":grinning:";
         String str2=":lock:";
         String str3=":cyclone:";
+        String str4=":ghost:";
 
         String symbol = EmojiParser.parseToUnicode(str);
         String symbol2=EmojiParser.parseToUnicode(str2);
         String symbol3=EmojiParser.parseToUnicode(str3);
+        String symbol4=EmojiParser.parseToUnicode(str4);
 
         Player player=new Player(symbol);
         Pengesa pengesa=new Pengesa(symbol2);
         BlackHole blackHole=new BlackHole(symbol3);
+        DangerousPlayer dangerousPlayer=new DangerousPlayer(symbol4);
 
         Position positionOfPengesa=new Position();
         Position positionOfBlackHole=new Position();
         Position positionOfPlayer=new Position(0,0);
+        Position positionOfDangerousPlayer=new Position(5,5);
 
+
+        board.updatePosition(player,positionOfPlayer);
+
+        board.setLastDangerousPlayerPosition(positionOfDangerousPlayer);
+        board.updateDangerousPlayer(dangerousPlayer, positionOfDangerousPlayer);
 
         Random random=new Random();
 
@@ -53,11 +61,16 @@ public class Game {
             positionOfBlackHole.setX(random.nextInt(COLS));
             positionOfBlackHole.setY(random.nextInt(COLS));
 
+            if(board.isValidPosition(positionOfPengesa)){
             board.updatePengesa(pengesa,positionOfPengesa);
-            board.updateBlackHole(blackHole,positionOfBlackHole);
+            }
+
+            if(board.isValidPosition(positionOfBlackHole)) {
+                board.updateBlackHole(blackHole, positionOfBlackHole);
+            }
 
         }
-        board.updatePosition(player,positionOfPlayer);
+
 
 
     }
@@ -66,10 +79,14 @@ public class Game {
         String str = ":grinning:";
         String symbol = EmojiParser.parseToUnicode(str);
 
+        String strDanger = ":ghost:";
+        String symbolDanger = EmojiParser.parseToUnicode(strDanger);
+
         Player player=new Player(symbol);
 
         Board board=new Board(COLS,ROWS);
-        WindowDisplay windowDisplay=new WindowDisplay("Loja",player,board);
+        DangerousPlayer dangerousPlayer = new DangerousPlayer(symbolDanger);
+        WindowDisplay windowDisplay=new WindowDisplay("Loja",player,board, dangerousPlayer);
         Game game=new Game(windowDisplay);
 
         game.play(board);

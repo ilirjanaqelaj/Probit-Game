@@ -8,6 +8,9 @@ public class Board {
     public Pengesa currentPengesa;
     private BlackHole currentBlackHole;
     private int userPoints;
+    private DangerousPlayer dangerousPlayer;
+
+    private Position lastDangerousPlayerPosition;
 
     public Board(int rreshti, int shtylla) {
         ROWS = rreshti;
@@ -17,7 +20,7 @@ public class Board {
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 boxes[row][col] = new Box();
-                boxes[row][col].setPoints(1+rand.nextInt(10));
+                boxes[row][col].setPoints(1+rand.nextInt(5));
 
             }
         }
@@ -40,7 +43,13 @@ public class Board {
         return xPosition >= 0 && xPosition < ROWS && yPosition >= 0 && yPosition < COLS;
     }
 
+    public Position getLastDangerousPlayerPosition() {
+        return lastDangerousPlayerPosition;
+    }
 
+    public void setLastDangerousPlayerPosition(Position lastDangerousPlayerPosition) {
+        this.lastDangerousPlayerPosition = lastDangerousPlayerPosition;
+    }
 
     public boolean isValidPosition(Position position) {
 
@@ -61,7 +70,8 @@ public class Board {
     public void reset() {
         for (int rreshti = 0; rreshti < ROWS; rreshti++) {
             for (int shtylla = 0; shtylla < COLS; shtylla++) {
-                boxes[rreshti][shtylla].clear();
+                boxes[rreshti][shtylla].clearPlayer();
+                boxes[rreshti][shtylla].clearDangerousPlayer();
             }
         }
     }
@@ -97,11 +107,25 @@ public class Board {
         this.currentBlackHole=blackHole;
     }
 
+    public void updateDangerousPlayer(DangerousPlayer dangerousPlayer, Position position) {
+        getBox(position).setDangerousPlayer(dangerousPlayer);
+
+        if(lastDangerousPlayerPosition != null) {
+            getBox(lastDangerousPlayerPosition).clearDangerousPlayer();
+        }
+
+        this.dangerousPlayer=dangerousPlayer;
+        this.lastDangerousPlayerPosition = position;
+    }
+
+    public boolean samePositionAsDangerous() {
+        return this.currentPosition.getX() == this.lastDangerousPlayerPosition.getX() && this.currentPosition.getY() == this.lastDangerousPlayerPosition.getY();
+    }
 
 
     public Position getPositionFromCommand(char command) {
         Position position=new Position();
-        getBox(currentPosition).clear();
+        getBox(currentPosition).clearPlayer();
         int x = 0;
         int y = 0;
         switch (command) {
