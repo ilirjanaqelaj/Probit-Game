@@ -54,11 +54,12 @@ public class Game {
         Random random = new Random();
 
         for (int i = 0; i < COLS / 2; i++) {
-            positionOfPengesa.setX(random.nextInt(ROWS));
-            positionOfPengesa.setY(random.nextInt(COLS));
+            positionOfPengesa.setX(random.nextInt(ROWS-2+1));
+            positionOfPengesa.setY(random.nextInt(ROWS-2+1));
 
-            positionOfBlackHole.setX(random.nextInt(ROWS));
-            positionOfBlackHole.setY(random.nextInt(COLS));
+            positionOfBlackHole.setX(random.nextInt(ROWS-2+1));
+            positionOfBlackHole.setY(random.nextInt(ROWS-2+1));
+
 
             if (board.isValidPosition(positionOfPengesa)) {
                 board.updatePengesa(pengesa, positionOfPengesa);
@@ -69,7 +70,6 @@ public class Game {
             }
 
         }
-
 
     }
 
