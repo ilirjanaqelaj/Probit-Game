@@ -5,8 +5,8 @@ public class Position {
     private int y;
 
     public Position() {
-        x=-1;
-        y=-1;
+        x = -1;
+        y = -1;
     }
 
     public Position(int x, int y) {
@@ -40,10 +40,6 @@ public class Position {
     public int hashCode() {
         return Objects.hash(x, y);
     }
-
-
-
-
 
 
 }

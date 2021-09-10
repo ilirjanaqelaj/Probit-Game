@@ -2,7 +2,7 @@ import com.vdurmont.emoji.EmojiParser;
 
 import java.util.Scanner;
 
-public class ConsoleDisplay implements Display{
+public class ConsoleDisplay implements Display {
 
     Scanner in = new Scanner(System.in);
     static int[] array = new int[4];
@@ -22,32 +22,32 @@ public class ConsoleDisplay implements Display{
         Position position = null;
         String xPosition;
         String yPosition;
-        boolean validInput=true;
+        boolean validInput = true;
         do {
-                xPosition = in.nextLine();
-                yPosition = in.nextLine();
-               // in.nextLine();
+            xPosition = in.nextLine();
+            yPosition = in.nextLine();
+            // in.nextLine();
 
-            if ((xPosition.equals(" ") || xPosition.equals("")) && (yPosition.equals(" ") || yPosition.equals(""))){
-                return position=null;
+            if ((xPosition.equals(" ") || xPosition.equals("")) && (yPosition.equals(" ") || yPosition.equals(""))) {
+                return position = null;
             }
-           int xposition = Integer.parseInt(xPosition);
-            int yposition=Integer.parseInt(yPosition);
+            int xposition = Integer.parseInt(xPosition);
+            int yposition = Integer.parseInt(yPosition);
 
-                validInput = (xposition >= 0 && xposition < Board.ROWS) && (yposition >= 0 && yposition < Board.COLS);
+            validInput = (xposition >= 0 && xposition < Board.ROWS) && (yposition >= 0 && yposition < Board.COLS);
 
-                if (validInput) {
-                    position = new Position(xposition, yposition);
-                } else {
-                    showMessage("Rreshti dhe shtylla duhet te jete ndermjet [" + (Board.ROWS - 1) + "," + (Board.COLS - 1) + "]:");
-                }
+            if (validInput) {
+                position = new Position(xposition, yposition);
+            } else {
+                showMessage("Rreshti dhe shtylla duhet te jete ndermjet [" + (Board.ROWS - 1) + "," + (Board.COLS - 1) + "]:");
             }
-
-
-            while (!validInput) ;
-            return position;
-
         }
+
+
+        while (!validInput);
+        return position;
+
+    }
 
     public boolean wantsToPlayMore() {
         boolean vazhdo = true;
@@ -72,7 +72,7 @@ public class ConsoleDisplay implements Display{
         showMessage(board.toString());
     }
 
-    public void play(){
+    public void play() {
         do {
             Scanner sc = new Scanner(System.in);
             Player player = new Player("O");
@@ -83,15 +83,15 @@ public class ConsoleDisplay implements Display{
             }
             Board board = new Board(array[0], array[1]);
             Position position = new Position(array[2], array[3]);
-            System.out.println("Tebela "+array[0]+"x"+array[1]+" u ndertua dhe lojtari u vendos ne poziten "+array[2]+"x"+array[3]);
+            System.out.println("Tebela " + array[0] + "x" + array[1] + " u ndertua dhe lojtari u vendos ne poziten " + array[2] + "x" + array[3]);
             System.out.println("\n");
             board.updatePosition(player, position);
             showMessage(board.toString());
 
-            String str2=":lock:";
-            String symbol2= EmojiParser.parseToUnicode(str2);
+            String str2 = ":lock:";
+            String symbol2 = EmojiParser.parseToUnicode(str2);
 
-            Pengesa pengesa=new Pengesa(symbol2);
+            Pengesa pengesa = new Pengesa(symbol2);
 
             Position pozitapengeses;
             do {
@@ -105,7 +105,7 @@ public class ConsoleDisplay implements Display{
                     }
                 }
 
-            }while(pozitapengeses!=null);
+            } while (pozitapengeses != null);
 
             char command1 = ' ';
 
@@ -118,20 +118,18 @@ public class ConsoleDisplay implements Display{
                     if ((command1 == 'W') || (command1 == 'A') || (command1 == 'D') || (command1 == 'S')) {
 
                         Position positionFromCommand = board.getPositionFromCommand(command1);
-                        if(board.areInsideBounds(positionFromCommand.getX(),positionFromCommand.getY())){
+                        if (board.areInsideBounds(positionFromCommand.getX(), positionFromCommand.getY())) {
 
-                            if (board.isValidPosition(positionFromCommand) ) {
+                            if (board.isValidPosition(positionFromCommand)) {
                                 board.updatePosition(player, positionFromCommand);
                                 showMessage(board.toString());
                             } else {
                                 System.out.println("Lojtari nuk mund te kaloj ne pengese.");
                             }
-                        }
-                        else {
+                        } else {
                             System.out.println("Komanda nuk eshte brenda tabeles.");
                         }
-                    }
-                    else if ((command1 == 'Q')) {
+                    } else if ((command1 == 'Q')) {
                         System.out.println("Loja mbaroi");
                     } else {
                         System.out.println("Keni dhene komande te gabuar!");

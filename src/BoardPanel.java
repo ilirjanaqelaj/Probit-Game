@@ -1,21 +1,25 @@
 import java.awt.*;
 import javax.swing.*;
+
 public class BoardPanel extends JPanel {
     private Board board;
     private int width;
     private int height;
     private int boxWidth;
     private int boxHeight;
+
     public BoardPanel(int boxSize) {
         width = boxSize * Board.ROWS + 20;
         height = boxSize * Board.COLS + 20;
         boxWidth = width / Board.ROWS;
         boxHeight = height / Board.COLS;
     }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -28,12 +32,13 @@ public class BoardPanel extends JPanel {
                 int boxY = j * boxHeight;
                 g.drawRect(boxX, boxY, boxWidth, boxHeight);
                 if (board != null) {
-                    String content =board.getBox(i, j).toString();
+                    String content = board.getBox(i, j).toString();
                     g.drawString(content, boxY + boxHeight / 2, boxX + boxWidth / 2);
                 }
             }
         }
     }
+
     public void updateDrawing(Board board) {
         this.board = board;
         repaint();

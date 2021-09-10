@@ -3,7 +3,6 @@ public class DangerousPlayer {
     private String symbol;
 
 
-
     public DangerousPlayer(String symbol) {
         this.symbol = symbol;
     }

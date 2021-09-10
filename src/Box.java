@@ -12,11 +12,14 @@ public class Box {
     }
 
     public void clearDangerousPlayer() {
-        dangerousPlayer=null;
+        dangerousPlayer = null;
 
     }
 
-
+    public void clearPengesaAndBlackHole(){
+        pengesa=null;
+        blackHole=null;
+    }
 
 
 
@@ -25,11 +28,11 @@ public class Box {
     }
 
     public boolean isEmptyPengesa() {
-        return pengesa==null;
+        return pengesa == null;
     }
 
     public boolean isEmptyBox() {
-        return player==null && pengesa==null;
+        return player == null && pengesa == null;
     }
 
     public boolean isEmptyBlackHole() {
@@ -50,7 +53,6 @@ public class Box {
     }
 
 
-
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -64,40 +66,37 @@ public class Box {
         return pengesa;
     }
 
-    public void setPoints(int points){
+    public void setPoints(int points) {
         this.points = points;
     }
 
-    public void setBlackHole(BlackHole blackHole){
+    public void setBlackHole(BlackHole blackHole) {
         this.blackHole = blackHole;
     }
 
     public void setDangerousPlayer(DangerousPlayer dangerousPlayer) {
-        this.dangerousPlayer=dangerousPlayer;
+        this.dangerousPlayer = dangerousPlayer;
     }
 
 
-    public int getPoints()
-    {
+    public int getPoints() {
         return points;
     }
 
     @Override
-    public String toString()
-    {
-        if(!isEmptyPlayer())
-            return player.toString() ;
-        else if(!isEmptyBlackHole())
+    public String toString() {
+        if (!isEmptyPlayer())
+            return player.toString();
+        else if (!isEmptyBlackHole())
             return blackHole.toString();
-        else if(!isEmptyPengesa())
+        else if (!isEmptyPengesa())
             return pengesa.toString();
-        else if(!isEmptyDangerousPlayer())
+        else if (!isEmptyDangerousPlayer())
             return dangerousPlayer.toString();
         else {
-            return ""+ points;
+            return "" + points;
         }
     }
-
 
 
 }

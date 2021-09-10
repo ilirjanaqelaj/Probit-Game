@@ -16,17 +16,20 @@ public class Board {
         ROWS = rreshti;
         COLS = shtylla;
         boxes = new Box[ROWS][COLS];
-        Random rand=new Random();
+        Random rand = new Random();
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
                 boxes[row][col] = new Box();
-                boxes[row][col].setPoints(1+rand.nextInt(5));
+                boxes[row][col].setPoints(1 + rand.nextInt(5));
 
             }
         }
         currentPosition = new Position();
     }
 
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
 
     public boolean hasEmptyBoxes() {
         for (Box[] rowBox : boxes) {
@@ -56,6 +59,7 @@ public class Board {
         return getBox(position).isEmptyPlayer() && getBox(position).isEmptyPengesa();
     }
 
+
     public int getPositionPoints(Position position) {
         int positionPoints = 0;
         positionPoints = boxes[position.getX()][position.getY()].getPoints();
@@ -63,7 +67,7 @@ public class Board {
         return positionPoints;
     }
 
-    public boolean withBlackHolePosition(Position position){
+    public boolean withBlackHolePosition(Position position) {
         return !(getBox(position).isEmptyBlackHole());
     }
 
@@ -72,10 +76,10 @@ public class Board {
             for (int shtylla = 0; shtylla < COLS; shtylla++) {
                 boxes[rreshti][shtylla].clearPlayer();
                 boxes[rreshti][shtylla].clearDangerousPlayer();
+                boxes[rreshti][shtylla].clearPengesaAndBlackHole();
             }
         }
     }
-
 
 
     public Box getBox(Position pozita) {
@@ -90,7 +94,7 @@ public class Board {
     public void updatePosition(Player player, Position position) {
         getBox(position).setPlayer(player);
         this.currentPosition = position;
-         this.userPoints+= getPositionPoints(position);
+        this.userPoints += getPositionPoints(position);
         boxes[position.getX()][position.getY()].setPoints(0);
     }
 
@@ -100,31 +104,31 @@ public class Board {
 
     public void updatePengesa(Pengesa pengesa, Position position) {
         getBox(position).setPengesa(pengesa);
-        this.currentPengesa=pengesa;
+        this.currentPengesa = pengesa;
     }
+
     public void updateBlackHole(BlackHole blackHole, Position position) {
         getBox(position).setBlackHole(blackHole);
-        this.currentBlackHole=blackHole;
+        this.currentBlackHole = blackHole;
     }
 
     public void updateDangerousPlayer(DangerousPlayer dangerousPlayer, Position position) {
         getBox(position).setDangerousPlayer(dangerousPlayer);
-
-        if(lastDangerousPlayerPosition != null) {
+        if (lastDangerousPlayerPosition != null) {
             getBox(lastDangerousPlayerPosition).clearDangerousPlayer();
         }
-
-        this.dangerousPlayer=dangerousPlayer;
+        this.dangerousPlayer = dangerousPlayer;
         this.lastDangerousPlayerPosition = position;
+
     }
 
-    public boolean samePositionAsDangerous() {
+    public boolean playerSamePositionAsDangerous() {
         return this.currentPosition.getX() == this.lastDangerousPlayerPosition.getX() && this.currentPosition.getY() == this.lastDangerousPlayerPosition.getY();
     }
 
 
     public Position getPositionFromCommand(char command) {
-        Position position=new Position();
+        Position position = new Position();
         getBox(currentPosition).clearPlayer();
         int x = 0;
         int y = 0;
@@ -169,17 +173,17 @@ public class Board {
             for (int col = 0; col < COLS; col++) {
                 Box box = boxes[row][col];
                 if (box.isEmptyPlayer() && box.isEmptyPengesa() && box.isEmptyBlackHole()) {
-                    boardString.append(box.getPoints()+" points");
+                    boardString.append(box.getPoints() + " points");
                 } else {
-                    boardString.append(""+box);
+                    boardString.append("" + box);
                 }
-                if (col < boxes[row].length ) {
+                if (col < boxes[row].length) {
                     boardString.append("|");
                 }
             }
             boardString.append("\n");
-            if (row < boxes.length ) {
-                for(int i=0;i<COLS;i++) {
+            if (row < boxes.length) {
+                for (int i = 0; i < COLS; i++) {
                     boardString.append("--");
                 }
                 boardString.append("\n");

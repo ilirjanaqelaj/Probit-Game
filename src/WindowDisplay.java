@@ -1,9 +1,8 @@
+import com.vdurmont.emoji.EmojiParser;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 import javax.swing.*;
 
 public class WindowDisplay extends JFrame implements Display, KeyListener {
@@ -13,11 +12,8 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
     private Board board;
     private Player player;
     private DangerousPlayer dangerousPlayer;
-    private int userPoints=0;
-    protected Timer timer = null;
+    private int userPoints = 0;
 
-    int x = 5;
-    int y = 5;
 
     public WindowDisplay(String title, Player player, Board board, DangerousPlayer dangerousPlayer) {
 
@@ -37,43 +33,38 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
         this.player = player;
         this.dangerousPlayer = dangerousPlayer;
         this.board = board;
-        showMessage("Points : " + this.userPoints);
+        showMessage("Points : " + userPoints);
 
-
-
-        this.timer = new Timer(1000, new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == timer) {
-                    moveDangerousPlayer();
-                }
-
-            }
-        });
-
-        timer.start();
     }
 
 
-    private void moveDangerousPlayer() {
+    public void moveDangerousPlayer() throws InterruptedException {
+        Thread thread = new Thread();
+        for (int row = board.ROWS - 1; row >= 0; row--) {
+            for (int col = board.COLS - 1; col >= 0; col--) {
 
-        Random random = new Random();
-        int x = random.nextInt(board.ROWS);
-        int y = random.nextInt(board.COLS);
+                Position position = new Position(row, col);
 
-       // System.out.println(String.format("X = %d, Y = %d", x, y));
-        Position position = new Position(x,y);
-
-
-        if (board.areInsideBounds(x,y) && board.getBox(x,y).isEmptyPengesa()) {
-                    board.updateDangerousPlayer(dangerousPlayer, position);
-                    showMessage("Points: " + board.getUserPoints());
-                    update(board);
+                if (board.playerSamePositionAsDangerous()) {
+                    gameOver();
+                }
+                if (!(board.getBox(row, col).isEmptyPengesa())) {
+                    ++col;
+                    --row;
+                    position.setX(row);
+                    position.setY(col);
 
                 }
 
-        }
 
+                board.updateDangerousPlayer(dangerousPlayer, position);
+                Thread.sleep(1000);
+                update(board);
+
+            }
+
+        }
+    }
 
 
     @Override
@@ -129,42 +120,39 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
         }
 
         try {
-            if(board.withBlackHolePosition(position)){
-             gameOver();
-            }
-
 
             if (board.isValidPosition(position) && board.areInsideBounds(position.getX(), position.getY())) {
-
                 board.updatePosition(player, position);
-                if(board.samePositionAsDangerous()) {
-                    gameOver();
-                }
-//                showMessage("Points: " + board.getUserPoints());
                 update(board);
+
+            } else {
+                board.updatePosition(player, board.getCurrentPosition());
+            }
+
+            if (board.withBlackHolePosition(position)) {
+                gameOver();
 
             }
 
-        } catch (Exception ex) {
 
+        } catch (Exception ex) {
+            //ex.printStackTrace();
         }
 
     }
 
-public void gameOver(){
-    timer.stop();
-    JOptionPane.showMessageDialog(null, "GAME OVER");
-    if (wantsToPlayMore())
-    {
-        this.userPoints=0;
-        Board newBoard=new Board(Board.ROWS,Board.COLS);
-        WindowDisplay windowsDisplay=new WindowDisplay("",player,newBoard, dangerousPlayer);
-        Game game=new Game(windowsDisplay);
-        windowsDisplay.update(newBoard);
-        game.play(newBoard);
-    } else {
-        System.exit(0);
+    public void gameOver() throws InterruptedException {
+        JOptionPane.showMessageDialog(null, "GAME OVER");
+        if (wantsToPlayMore()) {
+            this.userPoints = 0;
+            Board newBoard = new Board(Board.ROWS, Board.COLS);
+            WindowDisplay windowsDisplay = new WindowDisplay("", player, newBoard, dangerousPlayer);
+            Game game = new Game(windowsDisplay);
+            windowsDisplay.update(newBoard);
+            game.play(newBoard);
+        } else {
+            System.exit(0);
+        }
     }
-}
 
 }
