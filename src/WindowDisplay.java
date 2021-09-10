@@ -33,7 +33,7 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
         this.player = player;
         this.dangerousPlayer = dangerousPlayer;
         this.board = board;
-        showMessage("Points : " + userPoints);
+        showMessage("Points : " + this.userPoints);
 
     }
 
@@ -121,6 +121,7 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
 
         try {
 
+
             if (board.isValidPosition(position) && board.areInsideBounds(position.getX(), position.getY())) {
                 board.updatePosition(player, position);
                 update(board);
@@ -134,7 +135,7 @@ public class WindowDisplay extends JFrame implements Display, KeyListener {
 
             }
 
-
+            showMessage("Points :"+board.getUserPoints());
         } catch (Exception ex) {
             //ex.printStackTrace();
         }
